@@ -1,14 +1,17 @@
-package org.example;
+package org.example.main;
+
+import org.example.items.Account;
+import org.example.repozutory.AccountDao;
 
 import java.util.Scanner;
 
 public class Menu {
     private Scanner scanner;
-    private AccountService accountService;
+    private AccountDao accountDao;
 
     public Menu() {
         this.scanner = new Scanner(System.in);
-        this.accountService = new AccountService();
+        this.accountDao = new AccountDao();
     }
 
     public void start() {
@@ -31,14 +34,14 @@ public class Menu {
     }
 
     private void printAcc(){
-        accountService.getListAcc();
+        accountDao.getListAcc();
     }
 
     private void deleteAccount(){
         System.out.println("введите login для удаления");
         String login = scanner.nextLine();
 
-        accountService.deleteAcc(login);
+        accountDao.deleteAcc(login);
 
     }
 
@@ -59,6 +62,6 @@ public class Menu {
         String answer = scanner.nextLine();
 
         Account account = new Account(login,password,email,question,answer);
-        accountService.addAccDataBase(account);
+        accountDao.addAccDataBase(account);
     }
 }

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.items;
 
 public class Account {
     private String login;

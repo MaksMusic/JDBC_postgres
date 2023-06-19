@@ -1,6 +1,4 @@
-package org.example;
-
-import java.io.File;
+package org.example.main;
 
 public class App {
 
