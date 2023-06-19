@@ -49,7 +49,16 @@ public class Menu {
         System.out.println("Введите пароль до 30 символов");
         String password = scanner.nextLine();
 
-        Account account = new Account(login,password);
+        System.out.println("Введите email");
+        String email = scanner.nextLine();
+
+        System.out.println("Выберите вопрос (для восстановления пароля)");
+        String question = scanner.nextLine();
+
+        System.out.println("Введите пароль до 30 символов");
+        String answer = scanner.nextLine();
+
+        Account account = new Account(login,password,email,question,answer);
         accountService.addAccDataBase(account);
     }
 }

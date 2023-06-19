@@ -3,6 +3,18 @@ package org.example;
 public class Account {
     private String login;
     private String password;
+    private String email;
+    private String question;
+    private String answer;
+
+
+    public Account(String login, String password, String email, String question, String answer) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.question = question;
+        this.answer = answer;
+    }
 
     public Account(String login, String password) {
         this.login = login;
@@ -20,6 +32,22 @@ public class Account {
     public String getPassword() {
         return password;
 
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public void setPassword(String password) {
