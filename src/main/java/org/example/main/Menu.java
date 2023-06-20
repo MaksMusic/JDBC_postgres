@@ -23,21 +23,63 @@ public class Menu {
             System.out.println("4 удалить аккаунт");
             System.out.println("5 список все аккаунтов");
             switch (scanner.nextLine()) {
-                case "1" -> {}
+                case "1" -> {
+                }
                 case "2" -> addAcc();
-                case "3" -> {}
-                case "0" -> {break;}
-                case "4" -> {deleteAccount();}
-                case "5"-> {printAcc();}
+                case "3" -> {
+                accountRecovery();
+                }
+                case "0" -> {
+                    break;
+                }
+                case "4" -> {
+                    deleteAccount();
+                }
+                case "5" -> {
+                    printAcc();
+                }
             }
         }
     }
 
-    private void printAcc(){
+    private boolean accountRecovery() {
+        System.out.println("введите логин от аккаунта");
+        String login = scanner.nextLine();
+        if (login.isEmpty()) {
+            System.out.println("вы ввели пустую строку (попробуйте снова)");
+            return false;
+        }
+        String question = accountDao.getQuestion(login);
+        if (question == null) {
+            System.out.println("Логин не найден ");
+            return false;
+        }
+
+        System.out.println("Вопрос: " + question);
+        System.out.print("Ответ: ");
+        String answer = scanner.nextLine();
+
+        if (answer.equals(accountDao.getAnswer(login))) {
+            String email = accountDao.getEmail();
+            if (!email.isEmpty()) {
+                System.out.println("Ваш новый пароль отправлен на почту " + email);
+                return true;
+
+            }else {
+                System.out.println("почта не найдена");
+            }
+        }
+        return false;
+
+
+    }
+
+
+    private void printAcc() {
         accountDao.getListAcc();
     }
 
-    private void deleteAccount(){
+    private void deleteAccount() {
         System.out.println("введите login для удаления");
         String login = scanner.nextLine();
 
@@ -58,10 +100,10 @@ public class Menu {
         System.out.println("Выберите вопрос (для восстановления пароля)");
         String question = scanner.nextLine();
 
-        System.out.println("Введите пароль до 30 символов");
+        System.out.println("Введите ответ на вопрос до 30 символов");
         String answer = scanner.nextLine();
 
-        Account account = new Account(login,password,email,question,answer);
+        Account account = new Account(login, password, email, question, answer);
         accountDao.addAccDataBase(account);
     }
 }

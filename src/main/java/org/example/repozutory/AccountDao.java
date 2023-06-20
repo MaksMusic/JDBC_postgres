@@ -21,14 +21,17 @@ public class AccountDao {
 
     //добавление account в бд
     public void addAccDataBase(Account account) {
-        String insertQuery = "INSERT INTO user_acc (login_user,password_user) VALUES (?, ?)";
+        String insertQuery = "INSERT INTO account (login_user,password_user,email,question,answer) VALUES (?,?,?,?,?)";
 
         //PreparedStatement используется для выполнения запроса к бд
         try (Connection connection = DriverManager.getConnection(url, userName, password);
-                PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
             //Данный метод устанавливает значение параметра запроса, который указывается в виде индекса
             preparedStatement.setString(1, account.getLogin());
             preparedStatement.setString(2, account.getPassword());
+            preparedStatement.setString(3, account.getEmail());
+            preparedStatement.setString(4, account.getQuestion());
+            preparedStatement.setString(5, account.getAnswer());
 
             int rowsAffected = preparedStatement.executeUpdate();
             System.out.println(rowsAffected + " row(s) affected");
@@ -42,10 +45,10 @@ public class AccountDao {
 
     //вывести содержимое таблицы в бд
     public void getListAcc() {
-        String insertQuery = "SELECT * FROM user_acc";
+        String insertQuery = "SELECT * FROM account";
         //String insertQuery = "SELECT  FROM user_acc";
         try (Connection connection = DriverManager.getConnection(url, userName, password);
-                PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
              ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 int id = rs.getInt("id_user");
@@ -58,10 +61,10 @@ public class AccountDao {
         }
     }
 
-    public void deleteAcc(String login) {
-        String insertQuery = "DELETE FROM user_acc WHERE login_user = ?";
+    public void deleteAcc(final String login) {
+        String insertQuery = "DELETE FROM account WHERE login_user = ?";
         try (Connection connection = DriverManager.getConnection(url, userName, password);
-                PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
             preparedStatement.setString(1, login);
             int rowsAffected = preparedStatement.executeUpdate();
             System.out.println("аккаунт был удален (" + rowsAffected + "  - rowsAffected");
@@ -69,5 +72,60 @@ public class AccountDao {
             e.printStackTrace();
         }
     }
+
+
+    public String getQuestion(final String loginAcc) {
+        String insertQuery = "Select question from account where login = ?";
+        try (Connection connection = DriverManager.getConnection(url, userName, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.setString(1, loginAcc);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("question");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("sql exception");
+        }
+
+        return null;
+    }
+
+    public String getAnswer(final String loginAcc) {
+        String insertQuery = "Select answer from account where login = ?";
+        try (Connection connection = DriverManager.getConnection(url, userName, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.setString(1, loginAcc);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("answer");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("sql exception");
+        }
+
+        return null;
+    }
+
+    public String getEmail() {
+        String insertQuery = "Select email from account where login = ?";
+        try (Connection connection = DriverManager.getConnection(url, userName, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                return resultSet.getString("email");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }
