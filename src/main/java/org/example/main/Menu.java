@@ -3,11 +3,14 @@ package org.example.main;
 import org.example.items.Account;
 import org.example.repozutory.AccountDao;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
+    private boolean authorizationAcc = false;
     private Scanner scanner;
     private AccountDao accountDao;
+    private Account account;
 
     public Menu() {
         this.scanner = new Scanner(System.in);
@@ -15,7 +18,10 @@ public class Menu {
     }
 
     public void start() {
+
+        menu:
         while (true) {
+            hello();
             System.out.println("0 выход");
             System.out.println("1 Войти");
             System.out.println("2 Регистрация");
@@ -23,23 +29,45 @@ public class Menu {
             System.out.println("4 удалить аккаунт");
             System.out.println("5 список все аккаунтов");
             switch (scanner.nextLine()) {
-                case "1" -> {
-                }
+                case "0" -> {break menu;}
+                case "1" -> {authorization();}
                 case "2" -> addAcc();
-                case "3" -> {
-                accountRecovery();
-                }
-                case "0" -> {
-                    break;
-                }
-                case "4" -> {
-                    deleteAccount();
-                }
-                case "5" -> {
-                    printAcc();
+                case "3" -> {accountRecovery();}
+                case "4" -> {deleteAccount();}
+                case "5" -> {printAcc();}
+            }
+        }
+    }
+
+    private void hello(){
+        if (authorizationAcc) System.out.println("Hello " + account.getLogin());
+    }
+
+    private boolean authorization(){
+        Account account = inputLoginAndPass();
+        for (Account account1 : accountDao.getListAcc()) {
+            if (account.getLogin().equals(account1.getLogin())){
+                if (account.getPassword().equals(account1.getPassword())) {
+                    authorizationAcc = true;
+                    this.account =account;
+                    System.out.println("вы авторизировались");
+                    return true;
                 }
             }
         }
+        System.out.println("не верный логин ил пароль");
+        return false;
+    }
+
+    private Account inputLoginAndPass(){
+        System.out.println("введите логин");
+        String login = scanner.nextLine();
+
+
+        System.out.println("введите пароль");
+        String pass = scanner.nextLine();
+
+        return new Account(login,pass);
     }
 
     private boolean accountRecovery() {
@@ -76,7 +104,12 @@ public class Menu {
 
 
     private void printAcc() {
-        accountDao.getListAcc();
+        for (Account account : accountDao.getListAcc()) {
+            System.out.println("Login: " + account.getLogin() + ", pass:"+account.getPassword());
+            System.out.println("question: "+ account.getQuestion() + " , answer "+ account.getAnswer());
+            System.out.println("email:" + account.getEmail() );
+            System.out.println("---------------------------------------------------------------------");
+        }
     }
 
     private void deleteAccount() {

@@ -3,6 +3,8 @@ package org.example.repozutory;
 import org.example.items.Account;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * класс для запросов к бд
@@ -44,7 +46,9 @@ public class AccountDao {
     }
 
     //вывести содержимое таблицы в бд
-    public void getListAcc() {
+    public List<Account> getListAcc() {
+        List<Account> accountList = new ArrayList<>();
+
         String insertQuery = "SELECT * FROM account";
         //String insertQuery = "SELECT  FROM user_acc";
         try (Connection connection = DriverManager.getConnection(url, userName, password);
@@ -54,11 +58,16 @@ public class AccountDao {
                 int id = rs.getInt("id_user");
                 String login = rs.getString("login_user");
                 String password = rs.getString("password_user");
-                System.out.printf("id:%d  login:%s  pass:%s\n", id, login, password);
+                String email = rs.getString("email");
+                String question = rs.getString("question");
+                String answer = rs.getString("answer");
+                accountList.add(new Account(login,password,email,question,answer));
+
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return accountList;
     }
 
     public void deleteAcc(final String login) {
