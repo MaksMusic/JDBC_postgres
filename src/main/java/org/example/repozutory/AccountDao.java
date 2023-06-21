@@ -75,7 +75,7 @@ public class AccountDao {
 
 
     public String getQuestion(final String loginAcc) {
-        String insertQuery = "Select question from account where login = ?";
+        String insertQuery = "Select question from account where login_user = ?";
         try (Connection connection = DriverManager.getConnection(url, userName, password);
              PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
             preparedStatement.setString(1, loginAcc);
@@ -94,7 +94,7 @@ public class AccountDao {
     }
 
     public String getAnswer(final String loginAcc) {
-        String insertQuery = "Select answer from account where login = ?";
+        String insertQuery = "Select answer from account where login_user = ?";
         try (Connection connection = DriverManager.getConnection(url, userName, password);
              PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
             preparedStatement.setString(1, loginAcc);
@@ -112,10 +112,12 @@ public class AccountDao {
         return null;
     }
 
-    public String getEmail() {
-        String insertQuery = "Select email from account where login = ?";
+    public String getEmail(String login) {
+        String insertQuery = "Select email from account where login_user = ?";
         try (Connection connection = DriverManager.getConnection(url, userName, password);
              PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+
+            preparedStatement.setString(1,login);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()){
                 return resultSet.getString("email");

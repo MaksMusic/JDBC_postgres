@@ -60,7 +60,7 @@ public class Menu {
         String answer = scanner.nextLine();
 
         if (answer.equals(accountDao.getAnswer(login))) {
-            String email = accountDao.getEmail();
+            String email = accountDao.getEmail(login);
             if (!email.isEmpty()) {
                 System.out.println("Ваш новый пароль отправлен на почту " + email);
                 return true;
