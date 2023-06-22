@@ -49,7 +49,7 @@ public class AccountDao {
     public List<Account> getListAcc() {
         List<Account> accountList = new ArrayList<>();
 
-        String insertQuery = "SELECT * FROM account";
+        String insertQuery = "SELECT * FROM account order by login_user";
         //String insertQuery = "SELECT  FROM user_acc";
         try (Connection connection = DriverManager.getConnection(url, userName, password);
              PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -61,7 +61,7 @@ public class AccountDao {
                 String email = rs.getString("email");
                 String question = rs.getString("question");
                 String answer = rs.getString("answer");
-                accountList.add(new Account(login,password,email,question,answer));
+                accountList.add(new Account(login, password, email, question, answer));
 
             }
         } catch (SQLException throwables) {
@@ -126,9 +126,9 @@ public class AccountDao {
         try (Connection connection = DriverManager.getConnection(url, userName, password);
              PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
 
-            preparedStatement.setString(1,login);
+            preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 return resultSet.getString("email");
             }
 
@@ -136,6 +136,19 @@ public class AccountDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public int deleteAll() {
+        String deleteAllQuery = "truncate table account";
+        try (Connection connection = DriverManager.getConnection(url, userName, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(deleteAllQuery)) {
+            return preparedStatement.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 

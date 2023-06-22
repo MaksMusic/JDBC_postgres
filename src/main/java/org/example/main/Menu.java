@@ -3,7 +3,6 @@ package org.example.main;
 import org.example.items.Account;
 import org.example.repozutory.AccountDao;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -22,19 +21,21 @@ public class Menu {
         menu:
         while (true) {
             hello();
-            System.out.println("0 выход");
-            System.out.println("1 Войти");
-            System.out.println("2 Регистрация");
-            System.out.println("3 Восстановить аккаунт");
-            System.out.println("4 удалить аккаунт");
-            System.out.println("5 список все аккаунтов");
+            System.out.println("0 exit");
+            System.out.println("1 Log In");
+            System.out.println("2 Registration");
+            System.out.println("3 Recover account");
+            System.out.println("4 Delete account");
+            System.out.println("5 Delete all account");
+            System.out.println("6 List account");
             switch (scanner.nextLine()) {
                 case "0" -> {break menu;}
                 case "1" -> {authorization();}
                 case "2" -> addAcc();
                 case "3" -> {accountRecovery();}
                 case "4" -> {deleteAccount();}
-                case "5" -> {printAcc();}
+                case "5" -> {deleteAllAccount();}
+                case "6" -> {printListAcc();}
             }
         }
     }
@@ -70,6 +71,7 @@ public class Menu {
         return new Account(login,pass);
     }
 
+
     private boolean accountRecovery() {
         System.out.println("введите логин от аккаунта");
         String login = scanner.nextLine();
@@ -103,7 +105,7 @@ public class Menu {
     }
 
 
-    private void printAcc() {
+    private void printListAcc() {
         for (Account account : accountDao.getListAcc()) {
             System.out.println("Login: " + account.getLogin() + ", pass:"+account.getPassword());
             System.out.println("question: "+ account.getQuestion() + " , answer "+ account.getAnswer());
@@ -138,5 +140,16 @@ public class Menu {
 
         Account account = new Account(login, password, email, question, answer);
         accountDao.addAccDataBase(account);
+    }
+
+    private boolean deleteAllAccount(){//проверить
+       int numberDeletedAccounts = accountDao.deleteAll();
+       if (numberDeletedAccounts > 0){
+           System.out.println("аккаунты удаленны ( "+numberDeletedAccounts + " count)");
+           return true;
+       }else {
+           System.out.println("0 удаленных аккаунтов");
+       }return false;
+
     }
 }
