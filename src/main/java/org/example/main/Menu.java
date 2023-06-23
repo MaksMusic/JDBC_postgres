@@ -2,6 +2,7 @@ package org.example.main;
 
 import org.example.items.Account;
 import org.example.repository.AccountDao;
+import org.example.repository.AccountDaoImpl;
 
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class Menu {
 
     public Menu() {
         this.scanner = new Scanner(System.in);
-        this.accountDao = new AccountDao();
+        this.accountDao = new AccountDaoImpl();
     }
 
     public void start() {
@@ -124,12 +125,11 @@ public class Menu {
     private void deleteAccount() {
         System.out.println("Enter login to delete");
         String login = scanner.nextLine();
-
         accountDao.deleteAcc(login);
 
     }
 
-    private void addAcc() {
+    private void addAcc() { // дописать проверку есть ли уже такой логин  в базе
         System.out.println("Enter login up to 30 characters");
         String login = scanner.nextLine();
 
@@ -149,7 +149,9 @@ public class Menu {
         accountDao.addAccDataBase(account);
     }
 
-    private boolean deleteAllAccount(){//проверить
+    private boolean deleteAllAccount(){
+        authorizationAcc =false;
+        account = null;
        int numberDeletedAccounts = accountDao.deleteAll();
        if (numberDeletedAccounts > 0){
            System.out.println("accounts deleted ( "+numberDeletedAccounts + " count)");
