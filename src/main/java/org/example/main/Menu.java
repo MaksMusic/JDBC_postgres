@@ -1,7 +1,7 @@
 package org.example.main;
 
 import org.example.items.Account;
-import org.example.repozutory.AccountDao;
+import org.example.repository.AccountDao;
 
 import java.util.Scanner;
 

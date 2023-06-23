@@ -1,4 +1,4 @@
-package org.example.repozutory;
+package org.example.repository;
 
 import org.example.items.Account;
 
