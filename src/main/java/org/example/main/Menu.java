@@ -3,6 +3,7 @@ package org.example.main;
 import org.example.items.Account;
 import org.example.repository.AccountDao;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -105,13 +106,19 @@ public class Menu {
     }
 
 
-    private void printListAcc() {
-        for (Account account : accountDao.getListAcc()) {
+    private boolean printListAcc() {
+        List<Account> accountList = accountDao.getListAcc();
+        if (accountList.isEmpty()) {
+            System.out.println("list is empty");
+            return false;
+        }
+        for (Account account : accountList) {
             System.out.println("Login: " + account.getLogin() + ", pass:"+account.getPassword());
             System.out.println("question: "+ account.getQuestion() + " , answer "+ account.getAnswer());
             System.out.println("email:" + account.getEmail() );
             System.out.println("---------------------------------------------------------------------");
         }
+        return true;
     }
 
     private void deleteAccount() {

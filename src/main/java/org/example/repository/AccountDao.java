@@ -140,10 +140,10 @@ public class AccountDao {
 
 
     public int deleteAll() {
-        String deleteAllQuery = "truncate table account";
+        String deleteAllQuery = "delete from account";
         try (Connection connection = DriverManager.getConnection(url, userName, password);
              PreparedStatement preparedStatement = connection.prepareStatement(deleteAllQuery)) {
-            return preparedStatement.executeUpdate();
+             return preparedStatement.executeUpdate();
 
         }catch (SQLException e){
             e.printStackTrace();
