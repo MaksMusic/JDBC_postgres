@@ -51,21 +51,21 @@ public class Menu {
                 if (account.getPassword().equals(account1.getPassword())) {
                     authorizationAcc = true;
                     this.account =account;
-                    System.out.println("вы авторизировались");
+                    System.out.println("You are logged in");
                     return true;
                 }
             }
         }
-        System.out.println("не верный логин ил пароль");
+        System.out.println("wrong login or password");
         return false;
     }
 
     private Account inputLoginAndPass(){
-        System.out.println("введите логин");
+        System.out.println("Enter login");
         String login = scanner.nextLine();
 
 
-        System.out.println("введите пароль");
+        System.out.println("Enter password");
         String pass = scanner.nextLine();
 
         return new Account(login,pass);
@@ -73,30 +73,30 @@ public class Menu {
 
 
     private boolean accountRecovery() {
-        System.out.println("введите логин от аккаунта");
+        System.out.println("Enter your account login");
         String login = scanner.nextLine();
         if (login.isEmpty()) {
-            System.out.println("вы ввели пустую строку (попробуйте снова)");
+            System.out.println("you entered an empty string (try again)");
             return false;
         }
         String question = accountDao.getQuestion(login);
         if (question == null) {
-            System.out.println("Логин не найден ");
+            System.out.println("Login not found");
             return false;
         }
 
-        System.out.println("Вопрос: " + question);
-        System.out.print("Ответ: ");
+        System.out.println("Question: " + question);
+        System.out.print("Answer: ");
         String answer = scanner.nextLine();
 
         if (answer.equals(accountDao.getAnswer(login))) {
             String email = accountDao.getEmail(login);
             if (!email.isEmpty()) {
-                System.out.println("Ваш новый пароль отправлен на почту " + email);
+                System.out.println("You new password has been sent to you email " + email);
                 return true;
 
             }else {
-                System.out.println("почта не найдена");
+                System.out.println("Email not found");
             }
         }
         return false;
@@ -115,7 +115,7 @@ public class Menu {
     }
 
     private void deleteAccount() {
-        System.out.println("введите login для удаления");
+        System.out.println("Enter login to delete");
         String login = scanner.nextLine();
 
         accountDao.deleteAcc(login);
@@ -123,19 +123,19 @@ public class Menu {
     }
 
     private void addAcc() {
-        System.out.println("Введите логин до 30 символов");
+        System.out.println("Enter login up to 30 characters");
         String login = scanner.nextLine();
 
-        System.out.println("Введите пароль до 30 символов");
+        System.out.println("Enter password up to 30 characters");
         String password = scanner.nextLine();
 
-        System.out.println("Введите email");
+        System.out.println("Enter email");
         String email = scanner.nextLine();
 
-        System.out.println("Выберите вопрос (для восстановления пароля)");
+        System.out.println("Select question (for password recovery)");
         String question = scanner.nextLine();
 
-        System.out.println("Введите ответ на вопрос до 30 символов");
+        System.out.println("Enter the answer to the question");
         String answer = scanner.nextLine();
 
         Account account = new Account(login, password, email, question, answer);
@@ -145,10 +145,10 @@ public class Menu {
     private boolean deleteAllAccount(){//проверить
        int numberDeletedAccounts = accountDao.deleteAll();
        if (numberDeletedAccounts > 0){
-           System.out.println("аккаунты удаленны ( "+numberDeletedAccounts + " count)");
+           System.out.println("accounts deleted ( "+numberDeletedAccounts + " count)");
            return true;
        }else {
-           System.out.println("0 удаленных аккаунтов");
+           System.out.println("0 deleted accounts");
        }return false;
 
     }
