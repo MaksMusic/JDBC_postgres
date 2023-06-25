@@ -129,7 +129,7 @@ public class Menu {
 
     }
 
-    private void addAcc() { // дописать проверку есть ли уже такой логин  в базе
+    private boolean addAcc() {
         System.out.println("Enter login up to 30 characters");
         String login = scanner.nextLine();
 
@@ -146,7 +146,18 @@ public class Menu {
         String answer = scanner.nextLine();
 
         Account account = new Account(login, password, email, question, answer);
+        for (Account account1 : accountDao.getListAcc()) {
+            if (account1.getLogin().equals(login)){
+                System.out.println("login busy");
+                return false;
+            }
+            if (account1.getEmail().equals(email)){
+                System.out.println("email busy");
+                return false;
+            }
+        }
         accountDao.addAccDataBase(account);
+        return true;
     }
 
     private boolean deleteAllAccount(){
