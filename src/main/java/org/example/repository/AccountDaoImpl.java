@@ -1,6 +1,6 @@
 package org.example.repository;
 
-import org.example.items.Account;
+import org.example.model.Account;
 
 import java.sql.*;
 import java.util.ArrayList;

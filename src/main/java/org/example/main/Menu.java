@@ -1,6 +1,6 @@
 package org.example.main;
 
-import org.example.items.Account;
+import org.example.model.Account;
 import org.example.repository.AccountDao;
 import org.example.repository.AccountDaoImpl;
 
@@ -30,6 +30,7 @@ public class Menu {
             System.out.println("4 Delete account");
             System.out.println("5 Delete all account");
             System.out.println("6 List account");
+
             switch (scanner.nextLine()) {
                 case "0" -> {break menu;}
                 case "1" -> {authorization();}

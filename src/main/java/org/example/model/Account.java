@@ -1,4 +1,4 @@
-package org.example.items;
+package org.example.model;
 
 public class Account {
     private String login;
