@@ -1,6 +1,7 @@
 package org.example.main;
 
 import org.example.model.Account;
+import org.example.model.AuthService;
 import org.example.repository.AccountDao;
 import org.example.repository.AccountDaoImpl;
 
@@ -8,14 +9,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
-    private boolean authorizationAcc = false;
     private Scanner scanner;
     private AccountDao accountDao;
     private Account account;
+    private AuthService authService;
 
     public Menu() {
         this.scanner = new Scanner(System.in);
         this.accountDao = new AccountDaoImpl();
+        this.authService = new AuthService();
     }
 
     public void start() {
@@ -44,23 +46,17 @@ public class Menu {
     }
 
     private void hello(){
-        if (authorizationAcc) System.out.println("Hello " + account.getLogin());
+        if (authService.isState()) {
+            System.out.println("Hello " + authService.getAccount().getLogin());
+        }
     }
 
-    private boolean authorization(){
-        Account account = inputLoginAndPass();
-        for (Account account1 : accountDao.getListAcc()) {
-            if (account.getLogin().equals(account1.getLogin())){
-                if (account.getPassword().equals(account1.getPassword())) {
-                    authorizationAcc = true;
-                    this.account =account;
-                    System.out.println("You are logged in");
-                    return true;
-                }
-            }
+    private void authorization(){
+        authService.connect(inputLoginAndPass());
+        if (authService.isState()){
+            authService.logInMenu();
         }
-        System.out.println("wrong login or password");
-        return false;
+
     }
 
     private Account inputLoginAndPass(){
@@ -162,8 +158,7 @@ public class Menu {
     }
 
     private boolean deleteAllAccount(){
-        authorizationAcc =false;
-        account = null;
+        authService.exit();
        int numberDeletedAccounts = accountDao.deleteAll();
        if (numberDeletedAccounts > 0){
            System.out.println("accounts deleted ( "+numberDeletedAccounts + " count)");
