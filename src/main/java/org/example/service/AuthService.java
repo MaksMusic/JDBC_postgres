@@ -1,5 +1,6 @@
-package org.example.model;
+package org.example.service;
 
+import org.example.model.Account;
 import org.example.repository.AccountDao;
 import org.example.repository.AccountDaoImpl;
 

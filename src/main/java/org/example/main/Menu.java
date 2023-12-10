@@ -1,7 +1,7 @@
 package org.example.main;
 
 import org.example.model.Account;
-import org.example.model.AuthService;
+import org.example.service.AuthService;
 import org.example.repository.AccountDao;
 import org.example.repository.AccountDaoImpl;
 
